@@ -1,1 +1,19 @@
-Decoder:
+REBUILD FUCTIONS:
+Import/Export Executions:
+-Source(get directory, save directory, name): Gets an object from a scource and gaives it a name
+-Create(name of file, directory): crate a new image with a certin name in a certian directory
+
+Object Property Edits:
+-ObjHue(object, hue edit vale, edit name, directory): Edit the hue of an object
+-ObjSaturation(object, saturation edit value, edit name, directory): Edit the saturation of the socific object
+-ObjBrightness(object, brightness edit value, edit name, directory): Edit the brightness of the specific object
+-Crop(object, X distnace LEFT of the horizontal, X distnace right of the horizontal, Y distnace ABOVE the horizontal,  Y distnace Below the horizontal, edit name, directory): will redimension the mage with relation the X and Y horizontal axies and delete parets of the image not inside the dimension
+-Resize(object, X size, Y size, edit name, directory): Resize an image to new X and Y dimensions, does not cut out any parts of the image. 
+
+Image/Space Edits:
+-Move(object, X coorinate, Y coordinate): Moves the center of an object to a certian coordinate
+-Rotate(object, angle): Angle of rotation (in degrees) around the center of the object
+-Mirror(object): Mirrors an object around the vertical midline
+-ImgHue(hue edit vale): Edit the entire image hur
+-ImgSaturation(saturation edit value): Edit the entire image saturation
+-ImgBrightness(brightness edit value): Edit the entire image brightness
