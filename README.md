@@ -3,7 +3,7 @@
 General Program Structure~
 ---------------------------
 Compression:
--Must have a preset database of images to use from before
+Must have a preset database of images to use from before
 -AI:
    -Break down the image on the user's end
    -Logically isolate objects using vision algorithms
