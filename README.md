@@ -1,7 +1,7 @@
-# Web-AI-Compression
+# Web-AI-Compression #
 
-General Program Structure
-==
+## Overall Program Structure ##
+
 Compression:
    * Must have a preset database of images to use from before
 * AI:
