@@ -92,19 +92,5 @@ class measure():
         return width
 
 
-'''
-TODO:
--translate function seems sketchy
-
--Change crop input values
-
--Crop: DONE
--Rotate: DONE
--Resize:
--Translate:
--Mirror: DONE
--Smudge: DONE
-'''
-
 
 
