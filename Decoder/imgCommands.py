@@ -53,7 +53,7 @@ class edit():
         #Symbol: t
     def translate(self, X, Y):
         self.tkImage = ImageTk.PhotoImage(self.PilImage)
-        self.canvasImage = self.canvas.create_image(self.x[X], self.y[Y], image=self.tkImage, anchor=NW)
+        self.canvasImage = self.canvas.create_image(X, Y, image=self.tkImage, anchor=NW)
 
         print("translate DONE")
 
