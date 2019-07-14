@@ -12,6 +12,5 @@ Compression:
 * Compressed file will be transformations between the user's image and the image components on the database.
 
 Decompression:
-* Each of the commands will cooretate to a python function
-* This can be given to GIMP where the editing can take place
+* Each of the commands will coorelate to a python function
 * The image creation could also take use of an image editing python library
