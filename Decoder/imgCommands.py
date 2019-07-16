@@ -1,5 +1,5 @@
 import PIL.Image
-from PIL import ImageTk, ImageFilter
+from PIL import ImageTk, ImageFilter, ImageDraw, ImageFont, Image
 from tkinter import *
 
 
@@ -16,33 +16,24 @@ class edit():
         self.x = [0, 100]
         self.y = [0, 100]
 
-        #Parser WILL save these commands:
-        #Symbol: x
-    def crop(self, ratioX1, ratioY1, ratioX2, ratioY2):
-        self.x[0] = self.tkImage.width() * ratioX1
-        self.x[1] = self.tkImage.width() * ratioX2
-
-        self.y[0] = self.tkImage.height() * ratioY1
-        self.y[1] = self.tkImage.height() * ratioY2
-
-        self.PilImage = self.PilImage.crop((self.x[0], self.y[0], self.x[1], self.y[1]))
+    #Parser WILL save these commands:
+    #Symbol: x
+    def crop(self, X0, Y0, X1, Y1):
+        self.PilImage = self.PilImage.crop((X0, Y0, X1, Y1))
         self.tkImage = ImageTk.PhotoImage(self.PilImage)
         self.canvasImage = self.canvas.create_image(self.x[0], self.y[0], image=self.tkImage, anchor=NW)
 
-        print("CROP DONE")
+        print("crop DONE")
 
-        #Symbol: o
+    #Symbol: o
     def rotate(self, angleInDegrees):
-        print(self.tkImage.width())
-
         self.PilImage = self.PilImage.rotate(angleInDegrees, expand=True, resample=PIL.Image.BICUBIC)
         self.tkImage = ImageTk.PhotoImage(self.PilImage)
         self.canvasImage = self.canvas.create_image(self.x[0], self.y[0], image=self.tkImage, anchor=NW)
 
-        print(self.tkImage.width())
         print("rotate DONE")
 
-        #Symbol: r
+    #Symbol: r
     def resize(self, X, Y):
         self.PilImage = self.PilImage.resize((X, Y), PIL.Image.NEAREST)
         self.tkImage = ImageTk.PhotoImage(self.PilImage)
@@ -50,14 +41,14 @@ class edit():
 
         print("resize DONE")
 
-        #Symbol: t
+    #Symbol: t
     def translate(self, X, Y):
         self.tkImage = ImageTk.PhotoImage(self.PilImage)
         self.canvasImage = self.canvas.create_image(X, Y, image=self.tkImage, anchor=NW)
 
         print("translate DONE")
 
-        #Symbol: s
+    #Symbol: s
     def smudge(self, blurVal ):
         self.PilImage = self.PilImage.filter(ImageFilter.GaussianBlur(radius = blurVal))
         self.tkImage = ImageTk.PhotoImage(self.PilImage)
@@ -65,13 +56,25 @@ class edit():
 
         print("smudge DONE")
 
-        #Symbol: m
-        #Always mirrors over the vertical axis (left to right)
+    #Symbol: m
+    #Always mirrors over the vertical axis (left to right)
     def mirror(self):
         self.PilImage = self.PilImage.transpose(PIL.Image.FLIP_LEFT_RIGHT)
         self.tkImage = ImageTk.PhotoImage(self.PilImage)
         self.canvasImage = self.canvas.create_image(self.x[0], self.y[0], image=self.tkImage, anchor=NW)
+
         print ("mirror DONE")
+
+    #Parser will not save this command:
+    def onion(self, val, X, Y):
+        onion = self.PilImage
+        onion.putalpha(val)
+        bg = PIL.Image.new("RGBA",(X, Y) , (255, 255, 255, 250))
+        bg.paste(onion, (0, 0), onion)
+        self.tkImage = ImageTk.PhotoImage(bg)
+        self.canvasImage = self.canvas.create_image(self.x[0], self.y[0], image=self.tkImage, anchor=NW)
+
+        print ("onion DONE")
 
 
 #Parser will NOT save these commands:
@@ -90,7 +93,6 @@ class measure():
         width, height = Img.size
         print(width)
         return width
-
 
 
 
