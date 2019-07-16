@@ -9,18 +9,23 @@ canvas.pack(fill='both', expand=True)
 
 
 #Example Command execution:
-'''
+
 #Define image:
+Back = edit(canvas, "/home/ganesh/workspaces/WAIC/testImages/TEST3.jpg")
+
+#Edit Images:
+Back.resize(500, 500)
+Back.onion(60, 500, 500)
+
+
 imgOne = edit(canvas, "/home/ganesh/workspaces/WAIC/testImages/TEST3.jpg")
 
-#Edit Image:
-imgOne.crop(0.9, 0.9, 0.9, 0.9)
+imgOne.crop(0, 2, 0, 1)
+imgOne.resize(500, 500)
 imgOne.rotate(90)
-imgOne.resize(100, 100)
-imgOne.translate(100, 100)
-imgOne.smudge(5)
+imgOne.smudge(4)
 imgOne.mirror()
-'''
+imgOne.translate(100, 200)
 
 
 #Show canvas:
