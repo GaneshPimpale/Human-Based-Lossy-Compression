@@ -69,7 +69,7 @@ class edit():
     def onion(self, val, X, Y):
         onion = self.PilImage
         onion.putalpha(val)
-        bg = PIL.Image.new("RGBA",(X, Y) , (255, 255, 255, 250))
+        bg = PIL.Image.new("RGBA",(self.PilImage.width, self.PilImage.height) , (255, 255, 255, 250))
         bg.paste(onion, (0, 0), onion)
         self.tkImage = ImageTk.PhotoImage(bg)
         self.canvasImage = self.canvas.create_image(self.x[0], self.y[0], image=self.tkImage, anchor=NW)
