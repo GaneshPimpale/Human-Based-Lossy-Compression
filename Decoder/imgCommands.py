@@ -66,7 +66,7 @@ class edit():
         print ("mirror DONE")
 
     #Parser will not save this command:
-    def onion(self, val, X, Y):
+    def onion(self, val):
         onion = self.PilImage
         onion.putalpha(val)
         bg = PIL.Image.new("RGBA",(self.PilImage.width, self.PilImage.height) , (255, 255, 255, 250))
