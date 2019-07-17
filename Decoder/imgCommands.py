@@ -91,11 +91,6 @@ class edit():
 
         print("onion DONE")
 
-    #Parser will not save this command:
-    def save(self, name):
-
-        print("saved" + name)
-
 
 class measure():
     def getDimension(Img):
@@ -123,9 +118,6 @@ class settings():
         print("canvas MADE")
         return canvas
 
-    def imports():
-
-        print("packages imported")
 
 '''
 TODO:
