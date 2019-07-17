@@ -64,7 +64,7 @@ class edit():
         print("translate DONE")
 
     #Symbol: s
-    def smudge(self, blurVal ):
+    def smudge(self, blurVal):
         self.PilImage = self.PilImage.filter(ImageFilter.GaussianBlur(radius = blurVal))
         self.tkImage = ImageTk.PhotoImage(self.PilImage)
         self.canvasImage = self.canvas.create_image(self.x[0], self.y[0], image=self.tkImage, anchor=self.anchorPoint)
