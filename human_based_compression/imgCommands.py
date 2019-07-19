@@ -7,7 +7,6 @@ class Element:
 
         self.canvas = canvas
         self.PilImage = PIL.Image.open(file).convert("RGBA") # The original PIL image
-
         self.displayBorder = displayBorder
         self.anchorPoint = anchor
 
@@ -35,7 +34,7 @@ class Element:
         self.PilImage = self.PilImage.crop((x[0], y[0], x[1], y[1]))
         self.displayImage()
 
-    #Parser WILL save these commands:
+    #parser WILL save these commands:
     #Symbol: x
     def cropPixel(self, x1, y1, x2, y2):
         self.PilImage = self.PilImage.crop((x1, y1, x2, y2))
@@ -77,7 +76,7 @@ class Element:
 
         print ("mirror DONE")
 
-    #Parser will not save this command:
+    #parser will not save this command:
     def onion(self, val):
         onion = self.PilImage
         onion.putalpha(val)

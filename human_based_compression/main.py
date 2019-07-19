@@ -1,11 +1,11 @@
 from tkinter import *
 import tkinter
-from imgCommands import Element
-import settings
+from human_based_compression.imgCommands import Element
+from human_based_compression.settings import Settings
 
 
 #Tkinter canvas setup
-canvas = settings.createCanvas(1000, 1000)
+canvas = Settings.createCanvas(1000, 1000)
 
 #Define anchor
 center = tkinter.CENTER
