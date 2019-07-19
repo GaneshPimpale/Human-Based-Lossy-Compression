@@ -11,13 +11,13 @@ canvas = settings.createCanvas(1000, 1000)
 center = tkinter.CENTER
 
 
-Back = Element(canvas, "/home/ganesh/workspaces/WAIC/testImages/TEST3.jpg", center, False)
+Back = Element(canvas, "TEST.jpg", center, False)
 
 Back.resize(500, 500)
 Back.onion(60)
 
 
-imgOne = Element(canvas, "/home/ganesh/workspaces/WAIC/testImages/TEST3.jpg", center, True)
+imgOne = Element(canvas, "TEST.jpg", center, True)
 
 imgOne.resize(500, 500)
 imgOne.rotate(90)
