@@ -1,6 +1,6 @@
 from tkinter import *
 import tkinter
-from imgCommands import Element
+from ImageElement import Element
 import settings
 
 
