@@ -5,11 +5,11 @@ import time
 
 class Display:
     """
-        The display class that includes display options and animates the display when
-       .mainloop() is invoked.
+    The display class that includes display options and animates the display when
+   .mainloop() is invoked.
 
-       :param width: The width of the canvas
-       :param height: The height of the canvas
+   :param width: The width of the canvas
+   :param height: The height of the canvas
     """
     def __init__(self, width, height):
         self.root = tk.Tk()
