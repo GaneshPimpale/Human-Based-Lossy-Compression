@@ -2,14 +2,21 @@ from human_based_compression.element import Element
 from human_based_compression.display import Display
 
 def main():
-    display = Display(500, 500)
-    potato = Element(display, "C:/Users/micha/OneDrive/Documents/Python Scripts/Web-AI-Compression/human_based_compression/Potato.jpg", 'nw', True)
-    # potato2 = potato
-    # potato2.resize(100,100)
-    #potato.onion(50)
-    #display.grid(100,100)
+    # First step:
+    # Create display with any width and height you'd like
+    # display = Display(500,500)
 
-    display.mainloop()
+    # Intermediate steps:
+    # Create an element, passing in the display object, the path, the anchor as a lowercase string
+    # and an option for bounding box
+    # element1 = Element(display, "img.jpg", 'nw', True)
+
+    # Final step
+    # Invoke mainloop to display the the canvas
+    # display.mainloop()
+
+    #Delete this when you write your code
+    pass
 
 if __name__ == '__main__':
     main()

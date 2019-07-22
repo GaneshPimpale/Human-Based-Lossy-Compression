@@ -27,23 +27,23 @@ class Element:
         self.showBorder = showBorder
         self.anchorPoint = anchor
 
+        self.position = [0, 0]
+
         self.displayImage()
 
-    def displayImage(self, x=0, y=0):
+    def displayImage(self):
         """
         Overarching method called at the end of each manipulation
 
         Does not animate the canvas. That's handled in the .mainloop
         function of the Display class.
-
-        :param x: The x origin of the image
-        :param y: The y origin of the image
         """
         if self.showBorder:
             self.tkImage = PIL.ImageTk.PhotoImage(PIL.ImageOps.expand(self.PilImage, border=1, fill=(0, 0, 0)))
         else:
             self.tkImage = PIL.ImageTk.PhotoImage(self.PilImage)
-        self.canvasImage = self.canvas.create_image(x, y, image=self.tkImage, anchor=self.anchorPoint)
+        self.canvasImage = self.canvas.create_image(self.position[0], self.position[1],
+                                                    image=self.tkImage, anchor=self.anchorPoint)
 
     def cropRatio(self, ratioX0, ratioY0, ratioX1, ratioY1):
         """
@@ -115,8 +115,9 @@ class Element:
         :param canvasX: X location to move anchor point
         :param canvasY: Y location to move anchor point
         """
-        self.displayImage(canvasX, canvasY)
-        print("translate DONE")
+        self.position[0] = canvasX
+        self.position[1] = canvasY
+        self.displayImage()
 
     #Symbol: s
     def smudge(self, blurVal):
@@ -145,7 +146,7 @@ class Element:
     #parser will not save this command:
     def onion(self, val):
         """
-        NOTE SAVED IN PARSER
+        NOT SAVED IN PARSER
 
         Displays an image transparently; this is used as a
         reference when redesigning the picture by hand.
@@ -159,11 +160,22 @@ class Element:
         onion.putalpha(val)
         bg = PIL.Image.new("RGBA",(self.PilImage.width, self.PilImage.height) , (255, 255, 255, 250))
         bg.paste(onion, (0, 0), onion)
-        self.tkImage = PIL.ImageTk.PhotoImage(bg)
-        self.canvasImage = self.canvas.create_image(0, 0
-                                                    , image=self.tkImage, anchor=self.anchorPoint)
+        self.displayImage()
 
         print ("onion DONE")
+
+    # Symbol: h
+    def brightness(self, val):
+        """
+        Change the bightness/ contrast of an image element
+
+        :param val: Value is float with 0 being black. For most
+        images, 100 would achieve full whiteness but the theoretical
+        limit is infinity.
+        """
+        enhancer = PIL.ImageEnhance.Brightness(self.PilImage)
+        self.PilImage = enhancer.enhance(val)
+        self.displayImage()
 
     def getHeight(self):
         return self.PilImage.height
