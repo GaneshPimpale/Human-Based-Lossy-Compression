@@ -1,4 +1,4 @@
-import PIL.Image, PIL.ImageTk, PIL.ImageFilter, PIL.ImageOps
+import PIL.Image, PIL.ImageTk, PIL.ImageFilter, PIL.ImageOps, PIL.ImageEnhance
 from tkinter import *
 
 class Element: #EACH OF OBJECT OF ELEMENT CONTAINS A PICTURE AND FUNCTIONS THAT SELF MANIPULATE
@@ -112,6 +112,16 @@ class Element: #EACH OF OBJECT OF ELEMENT CONTAINS A PICTURE AND FUNCTIONS THAT 
     # NOTE: to flip picture over its x-axis (vertically) use self.mirror() then self.rotate(180)
     def mirror(self):
         self.PilImage = self.PilImage.transpose(PIL.Image.FLIP_LEFT_RIGHT)
+        self.displayImage()
+
+    # PARSER SYMBOL: h
+    #
+    # Change the bightness/ contrast of an image element
+    #
+    # NOTE: value is a float, Range:[0, infinity)
+    def brightness(self, val):
+        enhancer = PIL.ImageEnhance.Brightness(self.PilImage)
+        self.PilImage = enhancer.enhance(val)
         self.displayImage()
 
 
