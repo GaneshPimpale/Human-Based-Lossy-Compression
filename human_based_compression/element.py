@@ -1,4 +1,4 @@
-import PIL.Image, PIL.ImageTk, PIL.ImageFilter, PIL.ImageOps
+import PIL.Image, PIL.ImageTk, PIL.ImageFilter, PIL.ImageOps, PIL.ImageEnhance
 from tkinter import *
 
 class Element:
@@ -169,9 +169,7 @@ class Element:
         """
         Change the bightness/ contrast of an image element
 
-        :param val: Value is float with 0 being black. For most
-        images, 100 would achieve full whiteness but the theoretical
-        limit is infinity.
+        :param val: Value is float with 0 being black. 1 is the original bightness
         """
         enhancer = PIL.ImageEnhance.Brightness(self.PilImage)
         self.PilImage = enhancer.enhance(val)
