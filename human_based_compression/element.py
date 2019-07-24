@@ -1,4 +1,5 @@
-import PIL.Image, PIL.ImageTk, PIL.ImageFilter, PIL.ImageOps
+import PIL.Image, PIL.ImageTk, PIL.ImageFilter, PIL.ImageOps, PIL.ImageEnhance
+import copy
 from tkinter import *
 
 class Element:
@@ -9,6 +10,9 @@ class Element:
 
     The constructor adds it to the tkinter canvas, but
     does not begin animating the tkinter window.
+
+    If no parameters are entered, it creates an empty version of the object
+    to be used for the .getCopy() member function.
 
     For more information on "display" refer to display.py and main.py
     For more information on "parser symbol" refer to file commandParser.py
@@ -21,15 +25,26 @@ class Element:
         will include a black border around it when displayed on Tkinter.
     """
 
-    def __init__(self, display, file, anchor, showBorder):
-        self.canvas = display.canvas
-        self.PilImage = PIL.Image.open(file).convert("RGBA") # The original PIL image
-        self.showBorder = showBorder
-        self.anchorPoint = anchor
+    def __init__(self, display=None, file=None, anchor=None, showBorder=False):
+        if display is None:
+            pass
+        else:
+            self.PilImage = PIL.Image.open(file).convert("RGBA")  # The original PIL image
+            self.canvas = display.canvas
+            self.showBorder = showBorder
+            self.anchorPoint = anchor
 
-        self.position = [0, 0]
+            self.position = [0, 0]
 
-        self.displayImage()
+            self.displayImage()
+
+    # def __init__(self, element):
+    #     self.canvas = element.canvas
+    #     self.PilImage = element.PilImage
+    #     self.showBorder = element.showBorder
+    #     self.anchorPoint = element.anchorPoint
+    #     self.position = element.position
+    #     self.displayImage()
 
     def displayImage(self):
         """
@@ -169,13 +184,31 @@ class Element:
         """
         Change the bightness/ contrast of an image element
 
-        :param val: Value is float with 0 being black. For most
-        images, 100 would achieve full whiteness but the theoretical
+        :param val: Value is float with 0 being black and 1 being
+        the original brightness. For most images,
+        100 would achieve full whiteness but the theoretical
         limit is infinity.
         """
         enhancer = PIL.ImageEnhance.Brightness(self.PilImage)
         self.PilImage = enhancer.enhance(val)
         self.displayImage()
+
+    def getCopy(self):
+        """
+        Returns a copy of the instance where are values are fully
+        independent except for the canvas, because both objects are displayed
+        on the same canvas.
+
+        :return: a copy of the Element instance
+        """
+        newElement = Element()
+        newElement.PilImage = self.PilImage
+        newElement.canvas = self.canvas
+        newElement.showBorder = self.showBorder
+        newElement.anchorPoint = self.anchorPoint
+        newElement.position = self.position
+        newElement.displayImage()
+        return newElement
 
     def getHeight(self):
         return self.PilImage.height
