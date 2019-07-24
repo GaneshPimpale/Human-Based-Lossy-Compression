@@ -1,4 +1,5 @@
 import PIL.Image, PIL.ImageTk, PIL.ImageFilter, PIL.ImageOps, PIL.ImageEnhance
+import copy
 from tkinter import *
 
 class Element:
@@ -6,13 +7,12 @@ class Element:
     A single image element used to create a composite image.
     Contains both the original PIL image
     and a display version of the image for Tkinter.
-
     The constructor adds it to the tkinter canvas, but
     does not begin animating the tkinter window.
-
+    If no parameters are entered, it creates an empty version of the object
+    to be used for the .getCopy() member function.
     For more information on "display" refer to display.py and main.py
     For more information on "parser symbol" refer to file commandParser.py
-
     :param display: A Display object
     :param file: A path to the image. A string
     :param anchor: The anchor option for displaying on the Tkinter canvas.
@@ -21,20 +21,30 @@ class Element:
         will include a black border around it when displayed on Tkinter.
     """
 
-    def __init__(self, display, file, anchor, showBorder):
-        self.canvas = display.canvas
-        self.PilImage = PIL.Image.open(file).convert("RGBA") # The original PIL image
-        self.showBorder = showBorder
-        self.anchorPoint = anchor
+    def __init__(self, display=None, file=None, anchor=None, showBorder=False):
+        if display is None:
+            pass
+        else:
+            self.PilImage = PIL.Image.open(file).convert("RGBA")  # The original PIL image
+            self.canvas = display.canvas
+            self.showBorder = showBorder
+            self.anchorPoint = anchor
 
-        self.position = [0, 0]
+            self.position = [0, 0]
 
-        self.displayImage()
+            self.displayImage()
+
+    # def __init__(self, element):
+    #     self.canvas = element.canvas
+    #     self.PilImage = element.PilImage
+    #     self.showBorder = element.showBorder
+    #     self.anchorPoint = element.anchorPoint
+    #     self.position = element.position
+    #     self.displayImage()
 
     def displayImage(self):
         """
         Overarching method called at the end of each manipulation
-
         Does not animate the canvas. That's handled in the .mainloop
         function of the Display class.
         """
@@ -49,9 +59,7 @@ class Element:
         """
         Cropping method where image is cropped to inside of a bounding box with points (0, 0)
         representing the top left and (1, 1) representing the bottom right
-
         Parameters should be floats between [0, 1]
-
         :param ratioX0: Left crop ratio
         :param ratioY0: Top crop ratio
         :param ratioX1: Right crop ratio
@@ -75,9 +83,7 @@ class Element:
         """
         Cropping method where image is cropped to inside of a bounding box with points (0, 0)
         representing the top left and (width, height) representing the bottom right
-
         Parameters should be floats between 0 and the maximum pixel length allowed for the coordinate
-
         :param x1: Left crop
         :param y1: Top crop
         :param x2: Right crop
@@ -99,7 +105,6 @@ class Element:
     def resize(self, width, height):
         """
         Resize method where image is resized to new width and new height
-
         :param width: Width in pixels
         :param height: Height in pixels
         """
@@ -111,7 +116,6 @@ class Element:
     def translate(self, canvasX, canvasY):
         """
         Moves the image ANCHOR POINT to the point defined on the canvas
-
         :param canvasX: X location to move anchor point
         :param canvasY: Y location to move anchor point
         """
@@ -123,7 +127,6 @@ class Element:
     def smudge(self, blurVal):
         """
         Smudge/blur method where image is blurred with Gaussian blur of radius blurVal
-
         :param blurVal: See PIL documentation for use of GaussianBlur values
         """
         self.PilImage = self.PilImage.filter(PIL.ImageFilter.GaussianBlur(radius = blurVal))
@@ -147,12 +150,9 @@ class Element:
     def onion(self, val):
         """
         NOT SAVED IN PARSER
-
         Displays an image transparently; this is used as a
         reference when redesigning the picture by hand.
-
         Typically picture should take up background.
-
         :param val: Value between 0 and 100, with 0 being fully transparent and 100
         fully saturated
         """
@@ -168,19 +168,36 @@ class Element:
     def brightness(self, val):
         """
         Change the bightness/ contrast of an image element
-
-        :param val: Value is float with 0 being black. 1 is the original bightness
+        :param val: Value is float with 0 being black and 1 being
+        the original brightness. For most images,
+        100 would achieve full whiteness but the theoretical
+        limit is infinity.
         """
         enhancer = PIL.ImageEnhance.Brightness(self.PilImage)
         self.PilImage = enhancer.enhance(val)
         self.displayImage()
+
+    def getCopy(self):
+        """
+        Returns a copy of the instance where are values are fully
+        independent except for the canvas, because both objects are displayed
+        on the same canvas.
+        :return: a copy of the Element instance
+        """
+        newElement = Element()
+        newElement.PilImage = self.PilImage
+        newElement.canvas = self.canvas
+        newElement.showBorder = self.showBorder
+        newElement.anchorPoint = self.anchorPoint
+        newElement.position = self.position
+        newElement.displayImage()
+        return newElement
 
     def getHeight(self):
         return self.PilImage.height
 
     def getWidth(self):
         return self.PilImage.width
-
 
 
 
