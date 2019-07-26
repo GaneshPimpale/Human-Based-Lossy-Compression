@@ -15,8 +15,9 @@ class Element:
     For more information on "display" refer to display.py and main.py
     For more information on "parser symbol" refer to file commandParser.py
     :param display: A Display object
-    :param file: A path to the image. Concatenated with the current working directory
-        and the "elements" folder to create a full path
+    :param file: The filename of the image (ex: 'car.png'). Images must 
+        be stored in a folder named 'elements' that is located in directory
+        from which 'main.py' is executed
     :param anchor: The anchor option for displaying on the Tkinter canvas.
         A string. Must be lowercase.
     :param showBorder: A boolean that determines whether the image
