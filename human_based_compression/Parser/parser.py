@@ -2,7 +2,7 @@ import math
 from ImageElement import Element
 
 
-class commandParser:
+class Parser:
 
     # [method and letter equivalent)
     # crop (pixels)  =  P  (pixels)
