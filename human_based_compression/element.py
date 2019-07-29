@@ -1,7 +1,5 @@
 import PIL.Image, PIL.ImageTk, PIL.ImageFilter, PIL.ImageOps, PIL.ImageEnhance
-import copy
 from tkinter import *
-import os
 
 class Element:
     """
@@ -15,36 +13,36 @@ class Element:
     For more information on "display" refer to display.py and main.py
     For more information on "parser symbol" refer to file commandParser.py
     :param display: A Display object
-    :param file: The filename of the image (ex: 'car.png'). Images must 
-        be stored in a folder named 'elements' that is located in directory
-        from which 'main.py' is executed
+    :param file: A path to the image. A string
     :param anchor: The anchor option for displaying on the Tkinter canvas.
         A string. Must be lowercase.
     :param showBorder: A boolean that determines whether the image
         will include a black border around it when displayed on Tkinter.
+    :param element: an object of Element that self will create a shallow copy
+    of, if element is inserted, all other params ignored
     """
 
-    def __init__(self, display=None, file=None, anchor=None, showBorder=False):
+    def __init__(self, display=None, file=None, anchor=None, showBorder=False, element=None):
+
+        if isinstance(element, Element):
+            self.PilImage = element.PilImage
+            self.canvas = element.canvas
+            self.showBorder = element.showBorder
+            self.anchorPoint = element.anchorPoint
+            self.position = element.position
+            self.displayImage()
+            pass
+
         if display is None:
             pass
         else:
-            fullPath = os.path.join(os.getcwd(), "elements", file)
             self.PilImage = PIL.Image.open(file).convert("RGBA")  # The original PIL image
             self.canvas = display.canvas
             self.showBorder = showBorder
             self.anchorPoint = anchor
-
             self.position = [0, 0]
 
             self.displayImage()
-
-    # def __init__(self, element):
-    #     self.canvas = element.canvas
-    #     self.PilImage = element.PilImage
-    #     self.showBorder = element.showBorder
-    #     self.anchorPoint = element.anchorPoint
-    #     self.position = element.position
-    #     self.displayImage()
 
     def displayImage(self):
         """
@@ -59,6 +57,7 @@ class Element:
         self.canvasImage = self.canvas.create_image(self.position[0], self.position[1],
                                                     image=self.tkImage, anchor=self.anchorPoint)
 
+    #symbol k
     def cropRatio(self, ratioX0, ratioY0, ratioX1, ratioY1):
         """
         Cropping method where image is cropped to inside of a bounding box with points (0, 0)
@@ -81,8 +80,7 @@ class Element:
         self.PilImage = self.PilImage.crop((x[0], y[0], x[1], y[1]))
         self.displayImage()
 
-    #parser WILL save these commands:
-    #Symbol: x
+    #Symbol: p
     def cropPixel(self, x1, y1, x2, y2):
         """
         Cropping method where image is cropped to inside of a bounding box with points (0, 0)
@@ -106,15 +104,32 @@ class Element:
         print("rotate DONE")
 
     #Symbol: r
-    def resize(self, width, height):
+    def resize(self, width=None, height=None, scalar=1):
+
         """
         Resize method where image is resized to new width and new height
         :param width: Width in pixels
         :param height: Height in pixels
-        """
-        self.PilImage = self.PilImage.resize((width, height), PIL.Image.NEAREST)
+        :param scalar: a scalar that width and height are multiplied by
+        :exception if either width/height inputed but not the other, method
+                   will scale the other value maintaining aspect ratio
+                   """
+
+        if not(width is None or height is None):
+            width = (self.getWidth() * height) / self.getHeight()
+            self.PilImage = self.PilImage.resize((int(scalar * width), int(scalar * height)), PIL.Image.NEAREST)
+            self.displayImage()
+            pass
+
+        if width is None:
+            width = self.getWidth()
+        if height is None:
+            height = self.getHeight()
+
+        height = (self.getHeight() * width) / self.getWidth()
+        width = (self.getWidth() * height) / self.getHeight()
+        self.PilImage = self.PilImage.resize((int(scalar * width), int(scalar * height)), PIL.Image.NEAREST)
         self.displayImage()
-        print("resize DONE")
 
     #Symbol: t
     def translate(self, canvasX, canvasY):
