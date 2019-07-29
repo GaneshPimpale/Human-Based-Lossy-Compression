@@ -5,8 +5,9 @@ import time
 
 class Display:
     """
-    The display class that includes display options and animates the display when
-   .mainloop() is invoked.
+    The display class that generates the tkinter canvas for displaying the composite as it
+    is being edited and save the display as an image file. 
+    It includes options to resize and overlay a ruler / grid.
 
    :param width: The width of the canvas
    :param height: The height of the canvas
@@ -30,7 +31,7 @@ class Display:
         """
         Takes a screenshot of the canvas
 
-        :param path: The path that the screenshot will be saved to
+        :param path: The path to which the screenshot will be saved
         """
         # Update the canvas to include all the added elements
         self.root.update()
@@ -47,7 +48,7 @@ class Display:
 
     def grid(self, box_x, box_y):
         """
-        Adds a labeled grid to the canvas
+        Adds a labeled grid to the canvas to aid in the editing process
 
         :param box_x: The width between each vertical grid line
         :param box_y: The height between each horizontal grid line
