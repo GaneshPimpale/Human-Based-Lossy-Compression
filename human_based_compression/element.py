@@ -1,5 +1,6 @@
 import PIL.Image, PIL.ImageTk, PIL.ImageFilter, PIL.ImageOps, PIL.ImageEnhance
 from tkinter import *
+import os
 
 class Element:
     """
@@ -16,7 +17,9 @@ class Element:
     For more information on "parser symbol" refer to file parser.py
     
     :param display: A Display object
-    :param file: A path to the image. A string
+    :param file: The filename of the image (ex: 'car.png'). Images must 
+        be stored in a folder named 'elements' that is located in directory
+        from which 'main.py' is executed
     :param anchor: The anchor option for displaying on the Tkinter canvas.
         A string. Must be lowercase.
     :param showBorder: A boolean that determines whether the image
@@ -39,7 +42,8 @@ class Element:
         if display is None:
             pass
         else:
-            self.PilImage = PIL.Image.open(file).convert("RGBA")  # The original PIL image
+            fullPath = os.path.join(os.getcwd(), "elements", file)
+            self.PilImage = PIL.Image.open(fullPath).convert("RGBA")  # The original PIL image
             self.canvas = display.canvas
             self.showBorder = showBorder
             self.anchorPoint = anchor
