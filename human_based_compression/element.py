@@ -208,7 +208,10 @@ class Element:
         Put the image into greyscale
         No Parameters
         """
+        alphaChannel = self.PilImage.split()[-1]
         self.PilImage = self.PilImage.convert("L")
+        self.PilImage.putalpha(alphaChannel)
+        self.PilImage = self.PilImage.convert("RGBA")
         self.displayImage()
 
     def getCopy(self):
