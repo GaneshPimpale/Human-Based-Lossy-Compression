@@ -5,15 +5,18 @@ import os
 
 class Element:
     """
-    A single image element used to create a composite image.
-    Contains both the original PIL image
-    and a display version of the image for Tkinter.
-    The constructor adds it to the tkinter canvas, but
-    does not begin animating the tkinter window.
+    Each instance of this class constitutes a single image element
+    used in creating the composite image on the display.
+   
+    The constructor adds it to the display, but
+    does not begin animating the display window.
+    
     If no parameters are entered, it creates an empty version of the object
     to be used for the .getCopy() member function.
+    
     For more information on "display" refer to display.py and main.py
-    For more information on "parser symbol" refer to file commandParser.py
+    For more information on "parser symbol" refer to file parser.py
+    
     :param display: A Display object
     :param file: The filename of the image (ex: 'car.png'). Images must 
         be stored in a folder named 'elements' that is located in directory
@@ -38,19 +41,10 @@ class Element:
 
             self.displayImage()
 
-    # def __init__(self, element):
-    #     self.canvas = element.canvas
-    #     self.PilImage = element.PilImage
-    #     self.showBorder = element.showBorder
-    #     self.anchorPoint = element.anchorPoint
-    #     self.position = element.position
-    #     self.displayImage()
-
     def displayImage(self):
         """
-        Overarching method called at the end of each manipulation
-        Does not animate the canvas. That's handled in the .mainloop
-        function of the Display class.
+        Places the element on the canvas.
+        Overarching method called at the end of each manipulation.
         """
         if self.showBorder:
             self.tkImage = PIL.ImageTk.PhotoImage(PIL.ImageOps.expand(self.PilImage, border=1, fill=(0, 0, 0)))
@@ -58,7 +52,9 @@ class Element:
             self.tkImage = PIL.ImageTk.PhotoImage(self.PilImage)
         self.canvasImage = self.canvas.create_image(self.position[0], self.position[1],
                                                     image=self.tkImage, anchor=self.anchorPoint)
-
+    #parser WILL save these commands:
+    #Symbol: p
+        
     def cropRatio(self, ratioX0, ratioY0, ratioX1, ratioY1):
         """
         Cropping method where image is cropped to inside of a bounding box with points (0, 0)
@@ -81,8 +77,8 @@ class Element:
         self.PilImage = self.PilImage.crop((x[0], y[0], x[1], y[1]))
         self.displayImage()
 
-    #parser WILL save these commands:
-    #Symbol: x
+
+    #Symbol: k
     def cropPixel(self, x1, y1, x2, y2):
         """
         Cropping method where image is cropped to inside of a bounding box with points (0, 0)
@@ -150,6 +146,20 @@ class Element:
         self.displayImage()
         print ("mirror DONE")
 
+  
+    # Symbol: h
+    def brightness(self, val):
+        """
+        Change the bightness/ contrast of an image element
+        :param val: Value is float with 0 being black and 1 being
+        the original brightness. For most images,
+        100 would achieve full whiteness but the theoretical
+        limit is infinity.
+        """
+        enhancer = PIL.ImageEnhance.Brightness(self.PilImage)
+        self.PilImage = enhancer.enhance(val)
+        self.displayImage()
+    
     #parser will not save this command:
     def onion(self, val):
         """
@@ -168,24 +178,19 @@ class Element:
 
         print ("onion DONE")
 
-    # Symbol: h
-    def brightness(self, val):
-        """
-        Change the bightness/ contrast of an image element
-        :param val: Value is float with 0 being black and 1 being
-        the original brightness. For most images,
-        100 would achieve full whiteness but the theoretical
-        limit is infinity.
-        """
-        enhancer = PIL.ImageEnhance.Brightness(self.PilImage)
-        self.PilImage = enhancer.enhance(val)
-        self.displayImage()
 
+    def getHeight(self):
+        return self.PilImage.height
+
+    def getWidth(self):
+        return self.PilImage.width
+    
+     #Additional feature not used in our testing
     def getCopy(self):
         """
         Returns a copy of the instance where are values are fully
         independent except for the canvas, because both objects are displayed
-        on the same canvas.
+        on the same canvas. 
         :return: a copy of the Element instance
         """
         newElement = Element()
@@ -196,12 +201,6 @@ class Element:
         newElement.position = self.position
         newElement.displayImage()
         return newElement
-
-    def getHeight(self):
-        return self.PilImage.height
-
-    def getWidth(self):
-        return self.PilImage.width
 
 
 
