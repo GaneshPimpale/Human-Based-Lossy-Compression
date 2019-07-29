@@ -3,15 +3,18 @@ from tkinter import *
 
 class Element:
     """
-    A single image element used to create a composite image.
-    Contains both the original PIL image
-    and a display version of the image for Tkinter.
-    The constructor adds it to the tkinter canvas, but
-    does not begin animating the tkinter window.
+    Each instance of this class constitutes a single image element
+    used in creating the composite image on the display.
+   
+    The constructor adds it to the display, but
+    does not begin animating the display window.
+    
     If no parameters are entered, it creates an empty version of the object
     to be used for the .getCopy() member function.
+    
     For more information on "display" refer to display.py and main.py
-    For more information on "parser symbol" refer to file commandParser.py
+    For more information on "parser symbol" refer to file parser.py
+    
     :param display: A Display object
     :param file: A path to the image. A string
     :param anchor: The anchor option for displaying on the Tkinter canvas.
@@ -46,9 +49,8 @@ class Element:
 
     def displayImage(self):
         """
-        Overarching method called at the end of each manipulation
-        Does not animate the canvas. That's handled in the .mainloop
-        function of the Display class.
+        Helper method that places the element on the canvas.
+        Overarching method called at the end of each manipulation.
         """
         if self.showBorder:
             self.tkImage = PIL.ImageTk.PhotoImage(PIL.ImageOps.expand(self.PilImage, border=1, fill=(0, 0, 0)))
@@ -209,7 +211,7 @@ class Element:
         """
         Returns a copy of the instance where are values are fully
         independent except for the canvas, because both objects are displayed
-        on the same canvas.
+        on the same canvas. Not used in our testing, and not implemented in the parser.
         :return: a copy of the Element instance
         """
         newElement = Element()
