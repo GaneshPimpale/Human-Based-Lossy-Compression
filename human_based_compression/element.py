@@ -122,7 +122,6 @@ class Element:
                    """
 
         if not(width is None or height is None):
-            width = (self.getWidth() * height) / self.getHeight()
             self.PilImage = self.PilImage.resize((int(scalar * width), int(scalar * height)), PIL.Image.NEAREST)
             self.displayImage()
             pass
@@ -132,8 +131,8 @@ class Element:
         if height is None:
             height = self.getHeight()
 
-        height = (self.getHeight() * width) / self.getWidth()
-        width = (self.getWidth() * height) / self.getHeight()
+        height = (height * width) / self.getWidth()
+        width = (width * height) / self.getHeight()
         self.PilImage = self.PilImage.resize((int(scalar * width), int(scalar * height)), PIL.Image.NEAREST)
         self.displayImage()
 
