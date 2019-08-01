@@ -131,8 +131,9 @@ class Element:
         if height is None:
             height = self.getHeight()
 
-        height = (height * width) / self.getWidth()
+        tempHeight = (height * width) / self.getWidth()
         width = (width * height) / self.getHeight()
+        height = tempHeight
         self.PilImage = self.PilImage.resize((int(scalar * width), int(scalar * height)), PIL.Image.NEAREST)
         self.displayImage()
 
