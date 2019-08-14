@@ -1,12 +1,13 @@
 import tkinter as tk
 import pyscreenshot
 import time
+#some new stuff
 
 
 class Display:
     """
     The display class that generates the tkinter canvas for displaying the composite as it
-    is being edited and save the display as an image file. 
+    is being edited and save the display as an image file.
     It includes options to resize and overlay a ruler / grid.
 
    :param width: The width of the canvas
